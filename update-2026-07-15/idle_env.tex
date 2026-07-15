@@ -7,6 +7,39 @@
 
 \section{Idle Environment}
 
+% ---- State space: Timed (Idle-Releases) environment --------
+\begin{frame}{Timed Environment: State Space}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.46\textwidth}
+      \begin{block}{Context (global)}
+        \footnotesize
+        \begin{itemize}\setlength\itemsep{2pt}
+          \item \texttt{free\_frac} --- free nodes / total
+        \end{itemize}
+      \end{block}
+      \begin{block}{Per running job \;(\textcolor{SoftCoral}{$V_r$ soonest-ending})}
+        \footnotesize
+        \begin{itemize}\setlength\itemsep{2pt}
+          \item \texttt{nodes} --- nodes held
+          \item \texttt{remaining} --- time to release
+        \end{itemize}
+      \end{block}
+    \column{0.50\textwidth}
+      \begin{block}{Per queued job \;($V_q$ visible)}
+        \footnotesize
+        \begin{itemize}\setlength\itemsep{2pt}
+          \item \texttt{nodes\_required}
+          \item \texttt{wall\_time}
+        \end{itemize}
+      \end{block}
+      \vspace{0.5em}
+      {\small\textcolor{DeepBlue}{The \textbf{running block} (soon-to-free nodes) is what the queue \emph{cross-attends} to --- release-aware scheduling.}}
+  \end{columns}
+
+  \vspace{0.6em}
+  {\footnotesize\textcolor{SoftCoral}{\textbf{Note (v0):} the non-timed \texttt{v0} env has \emph{no running block} (only \texttt{free\_frac} + \texttt{nodes\_required}); with no running queue, cross-attention has nothing to attend to --- the \emph{non-timed} results are v0.}}
+\end{frame}
+
 % ---- Training curve: cross--self vs. plain attention -------
 \begin{frame}{Training: Cross--Self vs.\ Plain Attention}
   \centering

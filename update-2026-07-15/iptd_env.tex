@@ -17,6 +17,49 @@
   \vfill
 \end{frame}
 
+% ---- Learned schedule (xsattn policy exploration) ----------
+% Placed first: shows the new IPTD job distribution across the cluster.
+\begin{frame}{IPTD: Learned Schedule}
+  \centering
+  \framedgraphic[height=0.76\textheight]{policy_exploration_IPTD}
+
+  % \vspace{0.2em}
+  % {\small\textcolor{DeepBlue}{\textbf{smdpppo\_xsattn} on the full 192-node cluster: packs the queue tightly across nodes (reward $48.6$, 360 jobs, $0.85$ utilisation).}}
+\end{frame}
+
+% ---- State space: IPTD environment -------------------------
+\begin{frame}{IPTD: State Space}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.46\textwidth}
+      \begin{block}{Context (global)}
+        \footnotesize
+        \begin{itemize}\setlength\itemsep{2pt}
+          \item \texttt{free\_frac} --- free nodes / total
+        \end{itemize}
+      \end{block}
+      \begin{block}{Per running job \;($V_r$ soonest-ending)}
+        \footnotesize
+        \begin{itemize}\setlength\itemsep{2pt}
+          \item \texttt{nodes}, \texttt{remaining}
+        \end{itemize}
+      \end{block}
+    \column{0.50\textwidth}
+      \begin{block}{Per queued job \;($V_q$ visible)}
+        \footnotesize
+        \begin{itemize}\setlength\itemsep{2pt}
+          \item \texttt{nodes\_required}, \texttt{wall\_time}
+          \item \texttt{priority}
+          \item \texttt{deadline\_urgency} --- wall / time-to-deadline
+          \item \texttt{wait\_fraction} --- queue wait / horizon
+        \end{itemize}
+      \end{block}
+  \end{columns}
+
+  \vspace{0.3em}
+  \centering
+  {\small\textcolor{DeepBlue}{Adds \textbf{priority} \& \textbf{deadline} signals to every queued job --- the policy trades off SLA urgency against packing.}}
+\end{frame}
+
 % ---- Total reward ------------------------------------------
 \begin{frame}{IPTD: Total Reward}
   \centering
@@ -33,13 +76,4 @@
 \begin{frame}{IPTD: Queue Length Over Time}
   \centering
   \framedgraphic[height=0.80\textheight]{results_IDTP_quelength}
-\end{frame}
-
-% ---- Learned schedule (xsattn policy exploration) ----------
-\begin{frame}{IPTD: Learned Schedule}
-  \centering
-  \framedgraphic[height=0.76\textheight]{policy_exploration_IPTD}
-
-  % \vspace{0.2em}
-  % {\small\textcolor{DeepBlue}{\textbf{smdpppo\_xsattn} on the full 192-node cluster: packs the queue tightly across nodes (reward $48.6$, 360 jobs, $0.85$ utilisation).}}
 \end{frame}
