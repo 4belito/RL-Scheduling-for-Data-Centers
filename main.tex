@@ -4,8 +4,10 @@
 %  architecture slide only.  The full 2026-06-28 deck is a separate
 %  document: update_2026_06_28/main.tex.
 % ============================================================
+\newcommand{\updatedate}{2026-07-14} 
+\newcommand{\myDynamicPath}{update_\updatedate/main.tex}
+
 \input{preamble.tex}
-\newcommand{\updatedate}{2026-07-15}
 \begin{document}
 
 % ---- Title slide -------------------------------------------
@@ -21,6 +23,7 @@
   \vfill
 \end{frame}
 
-\input{update_2026_07_14/main.tex}
+% 5. Bring in your external file safely
+\input{\myDynamicPath}
 
 \end{document}
