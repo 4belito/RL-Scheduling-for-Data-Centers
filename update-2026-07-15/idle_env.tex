@@ -7,37 +7,47 @@
 
 \section{Idle Environment}
 
+% ---- Section divider ---------------------------------------
+\begin{frame}[plain]
+  \vfill
+  \begin{center}
+    {\Huge\bfseries\color{DeepBlue} Idle Environment}\\[0.6em]
+    {\color{SkyBlue}\rule{0.40\linewidth}{1.4pt}}\\[0.7em]
+    {\large\color{DeepBlue!80!black} schedulable-idle reward}
+  \end{center}
+  \vfill
+\end{frame}
+
 % ---- State space: Timed (Idle-Releases) environment --------
 \begin{frame}{Timed Environment: State Space}
   \begin{columns}[T,onlytextwidth]
-    \column{0.46\textwidth}
+    \column{0.48\textwidth}
       \begin{block}{Context (global)}
         \footnotesize
         \begin{itemize}\setlength\itemsep{2pt}
-          \item \texttt{free\_frac} --- free nodes / total
+          \item \texttt{free nodes}
         \end{itemize}
       \end{block}
-      \begin{block}{Per running job \;(\textcolor{SoftCoral}{$V_r$ soonest-ending})}
+      \begin{block}{Per running job \;(\textcolor{SoftCoral}{$V_r=4$} soonest-ending)}
         \footnotesize
         \begin{itemize}\setlength\itemsep{2pt}
-          \item \texttt{nodes} --- nodes held
-          \item \texttt{remaining} --- time to release
+          \item \texttt{nodes held}
+          \item \texttt{remaining time to release}
         \end{itemize}
       \end{block}
-    \column{0.50\textwidth}
-      \begin{block}{Per queued job \;($V_q$ visible)}
+    \column{0.48\textwidth}
+      \begin{block}{Per queued job \;(\textcolor{SoftCoral}{$V_q=10$} visible)}
         \footnotesize
         \begin{itemize}\setlength\itemsep{2pt}
-          \item \texttt{nodes\_required}
-          \item \texttt{wall\_time}
+          \item \texttt{nodes required}
+          \item \texttt{wall time}
         \end{itemize}
       \end{block}
       \vspace{0.5em}
-      {\small\textcolor{DeepBlue}{The \textbf{running block} (soon-to-free nodes) is what the queue \emph{cross-attends} to --- release-aware scheduling.}}
   \end{columns}
-
-  \vspace{0.6em}
-  {\footnotesize\textcolor{SoftCoral}{\textbf{Note (v0):} the non-timed \texttt{v0} env has \emph{no running block} (only \texttt{free\_frac} + \texttt{nodes\_required}); with no running queue, cross-attention has nothing to attend to --- the \emph{non-timed} results are v0.}}
+\vspace{1.6em}
+    {\small\textcolor{DeepBlue}{{\textbf{Reward:} schedulable-idle penalty:}\\ $$r=-\dfrac{\min(D_t,\;n_{\text{free}})}{N}$$}}
+  {\footnotesize\textcolor{SoftCoral}{\textbf{Note:} the non-timed env has \emph{no running block} (only \texttt{free nodes} + \texttt{nodes required}); with no running queue, cross-attention is not used.}}
 \end{frame}
 
 % ---- Training curve: cross--self vs. plain attention -------

@@ -19,7 +19,7 @@
 
 % ---- Learned schedule (xsattn policy exploration) ----------
 % Placed first: shows the new IPTD job distribution across the cluster.
-\begin{frame}{IPTD: Learned Schedule}
+\begin{frame}{IPTD: New Job Distribution (192 Nodes)}
   \centering
   \framedgraphic[height=0.76\textheight]{policy_exploration_IPTD}
 
@@ -30,34 +30,51 @@
 % ---- State space: IPTD environment -------------------------
 \begin{frame}{IPTD: State Space}
   \begin{columns}[T,onlytextwidth]
-    \column{0.46\textwidth}
+    \column{0.48\textwidth}
       \begin{block}{Context (global)}
         \footnotesize
         \begin{itemize}\setlength\itemsep{2pt}
-          \item \texttt{free\_frac} --- free nodes / total
+          \item \texttt{free nodes}
         \end{itemize}
       \end{block}
-      \begin{block}{Per running job \;($V_r$ soonest-ending)}
+    \begin{block}{Per running job \;(\textcolor{SoftCoral}{$V_r=5$} soonest-ending)}
         \footnotesize
         \begin{itemize}\setlength\itemsep{2pt}
-          \item \texttt{nodes}, \texttt{remaining}
+          \item \texttt{nodes held}
+          \item \texttt{remaining time to release}
         \end{itemize}
       \end{block}
-    \column{0.50\textwidth}
-      \begin{block}{Per queued job \;($V_q$ visible)}
+    \column{0.48\textwidth}
+      \begin{block}{Per queued job \;(\textcolor{SoftCoral}{$V_q=10$} visible)}
         \footnotesize
         \begin{itemize}\setlength\itemsep{2pt}
-          \item \texttt{nodes\_required}, \texttt{wall\_time}
+          \item \texttt{nodes required}
+          \item \texttt{wall time}
           \item \texttt{priority}
-          \item \texttt{deadline\_urgency} --- wall / time-to-deadline
-          \item \texttt{wait\_fraction} --- queue wait / horizon
+          \item \texttt{deadline urgency}  (wall time / time-to-deadline)
+          \item \texttt{waiting time} 
         \end{itemize}
       \end{block}
   \end{columns}
 
   \vspace{0.3em}
   \centering
-  {\small\textcolor{DeepBlue}{Adds \textbf{priority} \& \textbf{deadline} signals to every queued job --- the policy trades off SLA urgency against packing.}}
+
+  \vspace{0.5em}
+  {\footnotesize\textcolor{DeepBlue}{\textbf{Reward} (IPTD-SLA, weighted sum):}}
+  \[
+    \footnotesize
+    R = 0.49\,r_{\text{dl-viol}} + 0.36\,r_{\text{dl-comp}}
+      + 0.07\,r_{\text{thpt}} + 0.06\,r_{\text{svrs}}
+      + 0.02\,r_{\text{idle}}
+  \]
+
+  {\scriptsize\textcolor{DeepBlue!75!black}{%
+    $r_{\text{dl-viol}}$: deadline-violation penalty \quad
+    $r_{\text{dl-comp}}$: deadline-compliance \quad
+    $r_{\text{thpt}}$: throughput \quad
+    $r_{\text{svrs}}$: SVRS risk \quad
+    $r_{\text{idle}}$: schedulable-idle}}
 \end{frame}
 
 % ---- Total reward ------------------------------------------
